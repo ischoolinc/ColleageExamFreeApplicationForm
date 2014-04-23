@@ -245,32 +245,10 @@ namespace ColleageExamFreeApplicationForm
             }
         }
 
-        public StudentObj(DataRow row)
+        private void SetAddress(string str)
         {
-            this.Id = row["id"].ToString();
-            this.Name = row["name"].ToString();
-            this.ClassName = row["class_name"].ToString();
-            this.IdNumber = row["id_number"].ToString();
-            this.SeatNo = row["seat_no"].ToString();
-            this.StudentNumber = row["student_number"].ToString();
-            try
-            {
-                DateTime time = Convert.ToDateTime(row["birthdate"].ToString());
-                this.Birth_Year = time.Year - 1911;
-                this.Birth_Month = time.Month;
-                this.Birth_Day = time.Day;
-            }
-            catch
-            {
-                this.Birth_Year = 0;
-                this.Birth_Month = 0;
-                this.Birth_Day = 0;
-            }
-            
-            this.GradeYear = row["grade_year"].ToString();
-
             XmlDocument xml = new XmlDocument();
-            xml.LoadXml(row["mailing_address"].ToString());
+            xml.LoadXml(str);
 
             this.ZipCode = "";
             try
@@ -321,6 +299,38 @@ namespace ColleageExamFreeApplicationForm
             catch
             {
             }
+        }
+
+        public StudentObj(DataRow row)
+        {
+            this.Id = row["id"].ToString();
+            this.Name = row["name"].ToString();
+            this.ClassName = row["class_name"].ToString();
+            this.IdNumber = row["id_number"].ToString();
+            this.SeatNo = row["seat_no"].ToString();
+            this.StudentNumber = row["student_number"].ToString();
+            try
+            {
+                DateTime time = Convert.ToDateTime(row["birthdate"].ToString());
+                this.Birth_Year = time.Year - 1911;
+                this.Birth_Month = time.Month;
+                this.Birth_Day = time.Day;
+            }
+            catch
+            {
+                this.Birth_Year = 0;
+                this.Birth_Month = 0;
+                this.Birth_Day = 0;
+            }
+            
+            this.GradeYear = row["grade_year"].ToString();
+
+            //聯絡地址
+            SetAddress(row["mailing_address"].ToString());
+
+            //戶籍地址
+            if(string.IsNullOrWhiteSpace(this.Address))
+                SetAddress(row["permanent_address"].ToString());
             
             this.Contact_Phone = row["contact_phone"].ToString();
             this.SMS_Phone = row["sms_phone"].ToString();

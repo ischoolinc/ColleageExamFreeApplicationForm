@@ -175,7 +175,7 @@ namespace ColleageExamFreeApplicationForm
 
             _BW.ReportProgress(10);
             //基本資料
-            DataTable dt = _Q.Select("SELECT student.id,student.name,student.id_number,class.class_name,student.seat_no,student.student_number,student.birthdate,student.contact_phone,student.sms_phone,student.mailing_address,class.grade_year FROM student LEFT JOIN class ON ref_class_id = class.id WHERE student.id IN ('" + ids + "')");
+            DataTable dt = _Q.Select("SELECT student.id,student.name,student.id_number,class.class_name,student.seat_no,student.student_number,student.birthdate,student.contact_phone,student.sms_phone,student.mailing_address,student.permanent_address,class.grade_year FROM student LEFT JOIN class ON ref_class_id = class.id WHERE student.id IN ('" + ids + "')");
             foreach (DataRow row in dt.Rows)
             {
                 StudentObj obj = new StudentObj(row);
@@ -665,35 +665,6 @@ namespace ColleageExamFreeApplicationForm
                 dataGridViewX1.Rows.Add(row);
             }
 
-            //foreach (string key in 報名資格.Keys)
-            //{
-            //    if (!this.Column1.Items.Contains(key))
-            //        this.Column1.Items.Add(key);
-            //}
-
-            //foreach (string key in 報名費減免身分.Keys)
-            //{
-            //    if (!this.Column1.Items.Contains(key))
-            //        this.Column1.Items.Add(key);
-            //}
-
-            //foreach (string key in 弱勢身分.Keys)
-            //{
-            //    if (!this.Column1.Items.Contains(key))
-            //        this.Column1.Items.Add(key);
-            //}
-
-            //foreach (string key in 特種生加分類別.Keys)
-            //{
-            //    if (!this.Column1.Items.Contains(key))
-            //        this.Column1.Items.Add(key);
-            //}
-
-            //foreach (string key in 其他比序項目.Keys)
-            //{
-            //    if (!this.Column1.Items.Contains(key))
-            //        this.Column1.Items.Add(key);
-            //}
         }
 
         private void Column2Prepare()
@@ -759,6 +730,15 @@ namespace ColleageExamFreeApplicationForm
         private void LoadSetting()
         {
             List<Setting> UDTlist = _A.Select<Setting>(); //檢查UDT並回傳資料
+
+            UDTlist.Sort(delegate(Setting x, Setting y)
+            {
+                string xx = x.UID.PadLeft(10, '0');
+                string yy = y.UID.PadLeft(10, '0');
+
+                return xx.CompareTo(yy);
+            });
+
             DataGridViewRow row;
             if (UDTlist.Count > 0) //UDT內有設定才做讀取
             {
