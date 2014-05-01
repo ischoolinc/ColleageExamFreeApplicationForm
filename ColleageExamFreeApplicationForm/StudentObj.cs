@@ -92,18 +92,18 @@ namespace ColleageExamFreeApplicationForm
         }
 
 
-        public int ServiceHoursScore
-        {
-            get
-            {
-                int score = (int)(ServiceHours / 8);
+        //public int ServiceHoursScore
+        //{
+        //    get
+        //    {
+        //        int score = (int)(ServiceHours / 8);
 
-                if (score > 99)
-                    score = 99;
+        //        if (score > 99)
+        //            score = 99;
 
-                return score;
-            }
-        }
+        //        return score;
+        //    }
+        //}
 
         public int CadreTimesScore
         {

@@ -456,7 +456,7 @@ namespace ColleageExamFreeApplicationForm
                 cs[index, CloumnIndex["特種生加分類別"]].PutValue(CheckTagId(obj.TagIds, 特種生加分類別));
                 cs[index, CloumnIndex["報名費減免身分"]].PutValue(CheckTagId(obj.TagIds, 報名費減免身分));
                 cs[index, CloumnIndex["擔任幹部"]].PutValue(obj.CadreTimesScore);
-                cs[index, CloumnIndex["服務時數"]].PutValue(obj.ServiceHoursScore);
+                cs[index, CloumnIndex["服務時數"]].PutValue(obj.ServiceHours);
                 cs[index, CloumnIndex["服務學習"]].PutValue(obj.ServiceLearningScore);
                 cs[index, CloumnIndex["累計嘉獎"]].PutValue(obj.MeritC);
                 cs[index, CloumnIndex["累計小功"]].PutValue(obj.MeritB);
