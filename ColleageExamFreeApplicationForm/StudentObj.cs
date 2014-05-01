@@ -182,22 +182,23 @@ namespace ColleageExamFreeApplicationForm
             {
                 int score = 0;
 
-                if (!string.IsNullOrWhiteSpace(sit_and_reach_degree) && sit_and_reach_degree != "請加強" && sit_and_reach_degree != "待加強")
+                //sit_and_reach_degree
+                if (sit_and_reach_degree == "金牌" || sit_and_reach_degree == "銀牌" || sit_and_reach_degree == "銅牌" || sit_and_reach_degree == "中等")
                 {
                     score += 2;
                 }
-
-                if (!string.IsNullOrWhiteSpace(standing_long_jump_degree) && standing_long_jump_degree != "請加強" && standing_long_jump_degree != "待加強")
+                //standing_long_jump_degree
+                if (standing_long_jump_degree == "金牌" || standing_long_jump_degree == "銀牌" || standing_long_jump_degree == "銅牌" || standing_long_jump_degree == "中等")
                 {
                     score += 2;
                 }
-
-                if (!string.IsNullOrWhiteSpace(sit_up_degree) && sit_up_degree != "請加強" && sit_up_degree != "待加強")
+                //sit_up_degree
+                if (sit_up_degree == "金牌" || sit_up_degree == "銀牌" || sit_up_degree == "銅牌" || sit_up_degree == "中等")
                 {
                     score += 2;
                 }
-
-                if (!string.IsNullOrWhiteSpace(cardiorespiratory_degree) && cardiorespiratory_degree != "請加強" && cardiorespiratory_degree != "待加強")
+                //cardiorespiratory_degree
+                if (cardiorespiratory_degree == "金牌" || cardiorespiratory_degree == "銀牌" || cardiorespiratory_degree == "銅牌" || cardiorespiratory_degree == "中等")
                 {
                     score += 2;
                 }
@@ -235,7 +236,7 @@ namespace ColleageExamFreeApplicationForm
                     break;
             }
 
-            if (!string.IsNullOrWhiteSpace(value) && value != "請加強" && value != "待加強")
+            if (value == "金牌" || value == "銀牌" || value == "銅牌" || value == "中等")
             {
                 return 1;
             }
