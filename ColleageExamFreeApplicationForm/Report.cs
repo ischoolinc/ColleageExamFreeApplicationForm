@@ -589,7 +589,7 @@ namespace ColleageExamFreeApplicationForm
         private string[] CheckTagId(List<string> list)
         {
             string[] tag = new string[2];
-            tag[0] = "一般";
+            tag[0] = "0";
             tag[1] = "0";
             foreach (string sid in list)
             {
@@ -599,7 +599,7 @@ namespace ColleageExamFreeApplicationForm
                     {
                         if (弱勢身分.ContainsKey(tagName))
                         {
-                            tag[0] = tagName;
+                            tag[0] = 弱勢身分[tagName].ToString();
                             tag[1] = "2";
                             return tag;
                         }
