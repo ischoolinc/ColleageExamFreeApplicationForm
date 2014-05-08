@@ -29,7 +29,8 @@ namespace ColleageExamFreeApplicationForm
         Dictionary<String, int> 報名費減免身分;
         Dictionary<String, int> 弱勢身分;
         Dictionary<String, int> 特種生加分類別;
-        Dictionary<String, int> 其他比序項目;
+        Dictionary<String, int> 其他比序項目_全民英檢;
+        Dictionary<String, int> 其他比序項目_多益測驗;
         BackgroundWorker _BW;
         string _SchoolName;
 
@@ -43,7 +44,8 @@ namespace ColleageExamFreeApplicationForm
             報名費減免身分 = new Dictionary<string, int>();
             弱勢身分 = new Dictionary<string, int>();
             特種生加分類別 = new Dictionary<string, int>();
-            其他比序項目 = new Dictionary<string, int>();
+            其他比序項目_全民英檢 = new Dictionary<string, int>();
+            其他比序項目_多益測驗 = new Dictionary<string, int>();
 
             報名資格.Add("國民中學非應屆畢業生", 0);
             報名資格.Add("同等學歷", 2);
@@ -84,19 +86,20 @@ namespace ColleageExamFreeApplicationForm
             特種生加分類別.Add("退伍軍人-因作戰或因公成殘領有撫卹證明，於免役、除役後未滿五年", 25);
             特種生加分類別.Add("退伍軍人-因病成殘領有撫卹證明，於免役、除役後未滿五年", 26);
 
-            其他比序項目.Add("全民英語能力分級檢定測驗 GEPT 初級 初試及格", 1);
-            其他比序項目.Add("全民英語能力分級檢定測驗 GEPT 初級 複試及格", 2);
-            其他比序項目.Add("全民英語能力分級檢定測驗 GEPT 中級 初試及格", 3);
-            其他比序項目.Add("全民英語能力分級檢定測驗 GEPT 中級 複試及格", 4);
-            其他比序項目.Add("全民英語能力分級檢定測驗 GEPT 中高級 初試及格", 5);
-            其他比序項目.Add("全民英語能力分級檢定測驗 GEPT 中高級 複試及格", 6);
-            其他比序項目.Add("全民英語能力分級檢定測驗 GEPT 高級 初試及格", 7);
-            其他比序項目.Add("全民英語能力分級檢定測驗 GEPT 高級 複試及格", 8);
-            其他比序項目.Add("全民英語能力分級檢定測驗 GEPT 優級 初試及格", 9);
-            其他比序項目.Add("全民英語能力分級檢定測驗 GEPT 優級 複試及格", 10);
-            其他比序項目.Add("多益測驗 (TOEIC) 聽力 110 以上 閱讀 115 以上", 11);
-            其他比序項目.Add("多益測驗 (TOEIC) 聽力 275 以上 閱讀 275 以上", 12);
-            其他比序項目.Add("多益測驗 (TOEIC) 聽力 400 以上 閱讀 385 以上", 13);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 初級 初試及格", 1);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 初級 複試及格", 2);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 中級 初試及格", 3);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 中級 複試及格", 4);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 中高級 初試及格", 5);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 中高級 複試及格", 6);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 高級 初試及格", 7);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 高級 複試及格", 8);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 優級 初試及格", 9);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 優級 複試及格", 10);
+
+            其他比序項目_多益測驗.Add("多益測驗 (TOEIC) 聽力 110 以上 閱讀 115 以上", 1);
+            其他比序項目_多益測驗.Add("多益測驗 (TOEIC) 聽力 275 以上 閱讀 275 以上", 2);
+            其他比序項目_多益測驗.Add("多益測驗 (TOEIC) 聽力 400 以上 閱讀 385 以上", 3);
 
             _SchoolName = K12.Data.School.ChineseName;
 
@@ -429,12 +432,13 @@ namespace ColleageExamFreeApplicationForm
             CloumnIndex.Add("導師意見", 41);
             CloumnIndex.Add("輔導教師意見", 42);
             CloumnIndex.Add("適性輔導", 43);
-            CloumnIndex.Add("其他比序項目", 44);
+            CloumnIndex.Add("其他比序項目_全民英檢", 44);
             CloumnIndex.Add("合計", 45);
             CloumnIndex.Add("報名「北區」五專學校代碼", 46);
             CloumnIndex.Add("報名「中區」五專學校代碼", 47);
             CloumnIndex.Add("報名「南區」五專學校代碼", 48);
             CloumnIndex.Add("競賽名稱", 49);
+            CloumnIndex.Add("其他比序項目_多益測驗", 50);
             int index = 1;
             Workbook wb = new Workbook(new MemoryStream(Properties.Resources.Template));
             Cells cs = wb.Worksheets[0].Cells;
@@ -442,9 +446,9 @@ namespace ColleageExamFreeApplicationForm
             {
                 cs[index, CloumnIndex["身分證字統一編號"]].PutValue(obj.IdNumber);
                 cs[index, CloumnIndex["學生姓名"]].PutValue(obj.Name);
-                cs[index, CloumnIndex["出生年(民國年)"]].PutValue(obj.Birth_Year);
-                cs[index, CloumnIndex["出生月"]].PutValue(obj.Birth_Month);
-                cs[index, CloumnIndex["出生日"]].PutValue(obj.Birth_Day);
+                cs[index, CloumnIndex["出生年(民國年)"]].PutValue(obj.Birth_Year.ToString().PadLeft(3,'0'));
+                cs[index, CloumnIndex["出生月"]].PutValue(obj.Birth_Month.ToString().PadLeft(2, '0'));
+                cs[index, CloumnIndex["出生日"]].PutValue(obj.Birth_Day.ToString().PadLeft(2, '0'));
                 cs[index, CloumnIndex["年級"]].PutValue(obj.GradeYear);
                 cs[index, CloumnIndex["班級"]].PutValue(obj.ClassName);
                 cs[index, CloumnIndex["座號"]].PutValue(obj.SeatNo);
@@ -484,7 +488,8 @@ namespace ColleageExamFreeApplicationForm
                 cs[index, CloumnIndex["藝術與人文"]].PutValue(dic.ContainsKey("藝術與人文") ? dic["藝術與人文"] : 0);
                 cs[index, CloumnIndex["綜合活動"]].PutValue(dic.ContainsKey("綜合活動") ? dic["綜合活動"] : 0);
                 cs[index, CloumnIndex["均衡學習"]].PutValue(obj.DomainItemScore);
-                cs[index, CloumnIndex["其他比序項目"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目));
+                cs[index, CloumnIndex["其他比序項目_全民英檢"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目_全民英檢));
+                cs[index, CloumnIndex["其他比序項目_多益測驗"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目_多益測驗));
 
                 formula = "=IF(AF" + x + "+AH" + x + "+AJ" + x + "+AN" + x + "+AR" + x + ">30,30,AF" + x + "+AH" + x + "+AJ" + x + "+AN" + x + "+AR" + x + ")";
                 cs[index, CloumnIndex["合計"]].Formula = formula;
@@ -652,7 +657,13 @@ namespace ColleageExamFreeApplicationForm
                     all.Add(key);
             }
 
-            foreach (string key in 其他比序項目.Keys)
+            foreach (string key in 其他比序項目_全民英檢.Keys)
+            {
+                if (!all.Contains(key))
+                    all.Add(key);
+            }
+
+            foreach (string key in 其他比序項目_多益測驗.Keys)
             {
                 if (!all.Contains(key))
                     all.Add(key);

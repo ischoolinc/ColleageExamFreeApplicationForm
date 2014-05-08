@@ -51,7 +51,8 @@ namespace ColleageExamFreeApplicationForm
                 if (count > 0)
                     domainAverageScores[domain] /= count;
 
-                domainAverageScores[domain] = Math.Round(domainAverageScores[domain], 2, MidpointRounding.AwayFromZero);
+                domainAverageScores[domain] = (int)domainAverageScores[domain];
+                //domainAverageScores[domain] = Math.Round(domainAverageScores[domain], 2, MidpointRounding.AwayFromZero);
             }
 
             return domainAverageScores;
