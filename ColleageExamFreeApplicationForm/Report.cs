@@ -218,13 +218,14 @@ namespace ColleageExamFreeApplicationForm
 
             _BW.ReportProgress(30);
             //幹部紀錄
-            dt = _Q.Select("SELECT studentid,schoolyear,semester FROM $behavior.thecadre WHERE studentid IN ('" + ids + "')");
+            dt = _Q.Select("SELECT studentid,schoolyear,semester,cadrename FROM $behavior.thecadre WHERE studentid IN ('" + ids + "')");
             List<string> checkList = new List<string>();
             foreach (DataRow row in dt.Rows)
             {
                 string id = row["studentid"].ToString();
                 string schoolyear = row["schoolyear"].ToString();
                 string semester = row["semester"].ToString();
+                string cadrename = row["cadrename"].ToString();
 
                 string key = id + "_" + schoolyear + "_" + semester;
 
@@ -232,8 +233,19 @@ namespace ColleageExamFreeApplicationForm
                 {
                     if (studentDic.ContainsKey(id))
                     {
-                        studentDic[id].CadreTimes++;
-                        checkList.Add(key);
+                        if (!cadrename.Contains("副"))
+                        {
+                            studentDic[id].CadreTimes++;
+                            checkList.Add(key);
+                            continue;
+                        }
+
+                        if (cadrename.Contains("副班") || cadrename.Contains("副社"))
+                        {
+                            studentDic[id].CadreTimes++;
+                            checkList.Add(key);
+                            continue;
+                        }
                     }
                 }
             }
@@ -446,7 +458,7 @@ namespace ColleageExamFreeApplicationForm
             {
                 cs[index, CloumnIndex["身分證字統一編號"]].PutValue(obj.IdNumber);
                 cs[index, CloumnIndex["學生姓名"]].PutValue(obj.Name);
-                cs[index, CloumnIndex["出生年(民國年)"]].PutValue(obj.Birth_Year.ToString().PadLeft(3,'0'));
+                cs[index, CloumnIndex["出生年(民國年)"]].PutValue(obj.Birth_Year.ToString().PadLeft(3, '0'));
                 cs[index, CloumnIndex["出生月"]].PutValue(obj.Birth_Month.ToString().PadLeft(2, '0'));
                 cs[index, CloumnIndex["出生日"]].PutValue(obj.Birth_Day.ToString().PadLeft(2, '0'));
                 cs[index, CloumnIndex["年級"]].PutValue(obj.GradeYear);
