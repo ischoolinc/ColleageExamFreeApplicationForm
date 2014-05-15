@@ -10,7 +10,7 @@ namespace ColleageExamFreeApplicationForm
 {
     class StudentObj
     {
-        public string Id, Name, ClassName, IdNumber, SeatNo, StudentNumber,GradeYear, ZipCode, Address,Contact_Phone,SMS_Phone;
+        public string Id, Name, ClassName, IdNumber, SeatNo, StudentNumber, GradeYear, ZipCode, Address, Contact_Phone, SMS_Phone;
         public int Birth_Year, Birth_Month, Birth_Day;
         public decimal ServiceHours;
         public int CadreTimes;
@@ -138,6 +138,12 @@ namespace ColleageExamFreeApplicationForm
             get
             {
                 int score = 0;
+
+                if (DA == 0 && DB == 0 && DC == 0)
+                {
+                    score = 1;
+                }
+
                 if (!HasDemeritAB)
                 {
                     if (MA > 0)
@@ -151,10 +157,6 @@ namespace ColleageExamFreeApplicationForm
                     else if (MC > 0)
                     {
                         score = 2;
-                    }
-                    else if (DA == 0 && DB == 0 && DC == 0)
-                    {
-                        score = 1;
                     }
                 }
 
@@ -324,16 +326,16 @@ namespace ColleageExamFreeApplicationForm
                 this.Birth_Month = 0;
                 this.Birth_Day = 0;
             }
-            
+
             this.GradeYear = row["grade_year"].ToString();
 
             //聯絡地址
             SetAddress(row["mailing_address"].ToString());
 
             //戶籍地址
-            if(string.IsNullOrWhiteSpace(this.Address))
+            if (string.IsNullOrWhiteSpace(this.Address))
                 SetAddress(row["permanent_address"].ToString());
-            
+
             this.Contact_Phone = row["contact_phone"].ToString();
             this.SMS_Phone = row["sms_phone"].ToString();
             this.ServiceHours = 0;
