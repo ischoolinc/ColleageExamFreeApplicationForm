@@ -252,57 +252,61 @@ namespace ColleageExamFreeApplicationForm
         private void SetAddress(string str)
         {
             XmlDocument xml = new XmlDocument();
-            xml.LoadXml(str);
-
             this.ZipCode = "";
-            try
-            {
-                this.ZipCode = xml.SelectSingleNode("//ZipCode").InnerText;
-            }
-            catch
-            {
-            }
-
             this.Address = "";
-            try
-            {
-                this.Address += xml.SelectSingleNode("//County").InnerText;
-            }
-            catch
-            {
-            }
 
-            try
+            if (!string.IsNullOrWhiteSpace(str))
             {
-                this.Address += xml.SelectSingleNode("//Town").InnerText;
-            }
-            catch
-            {
-            }
+                xml.LoadXml(str);
+                try
+                {
+                    this.ZipCode = xml.SelectSingleNode("//ZipCode").InnerText;
+                }
+                catch
+                {
+                }
 
-            try
-            {
-                this.Address += xml.SelectSingleNode("//District").InnerText;
-            }
-            catch
-            {
-            }
+                try
+                {
+                    this.Address += xml.SelectSingleNode("//County").InnerText;
+                }
+                catch
+                {
+                }
 
-            try
-            {
-                this.Address += xml.SelectSingleNode("//Area").InnerText;
-            }
-            catch
-            {
-            }
+                try
+                {
+                    this.Address += xml.SelectSingleNode("//Town").InnerText;
+                }
+                catch
+                {
+                }
 
-            try
-            {
-                this.Address += xml.SelectSingleNode("//DetailAddress").InnerText;
+                try
+                {
+                    this.Address += xml.SelectSingleNode("//District").InnerText;
+                }
+                catch
+                {
+                }
+
+                try
+                {
+                    this.Address += xml.SelectSingleNode("//Area").InnerText;
+                }
+                catch
+                {
+                }
+
+                try
+                {
+                    this.Address += xml.SelectSingleNode("//DetailAddress").InnerText;
+                }
+                catch
+                {
+                }
             }
-            catch
-            {
-            }
+            
         }
 
         public StudentObj(DataRow row)
