@@ -560,8 +560,8 @@ namespace ColleageExamFreeApplicationForm
                 score += 2;
             }
 
-            if (score > 6)
-                score = 6;
+            //if (score > 6)
+            //    score = 6;
 
             return score;
         }
