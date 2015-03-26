@@ -309,6 +309,41 @@ namespace ColleageExamFreeApplicationForm
             
         }
 
+        public void MeritDemeritTransfer()
+        {
+            int merit = ((MeritA * Report.MAB) + MeritB) * Report.MBC + MeritC;
+            int demerit = ((DemeritA * Report.DAB) + DemeritB) * Report.DBC + DemeritC;
+
+            int total = merit - demerit;
+
+            if (total > 0)
+            {
+                //最小單位先存起來
+                MC = total;
+
+                //原始紀錄有大功或小功必須先轉換一次
+                if (MeritA > 0 || MeritB > 0)
+                {
+                    MB = MC / Report.MBC;
+                    MC = MC % Report.MBC;
+                }
+
+                //原始紀錄有大功再轉一次
+                if (MeritA > 0)
+                {
+                    MA = MB / Report.MAB;
+                    MB = MB % Report.MAB;
+                }
+            }
+            else if (total < 0)
+            {
+                total *= -1;
+                DC = total % Report.DBC;
+                DB = (total / Report.DBC) % Report.DAB;
+                DA = (total / Report.DBC) / Report.DAB;
+            }
+        }
+
         public StudentObj(DataRow row)
         {
             this.Id = row["id"].ToString();

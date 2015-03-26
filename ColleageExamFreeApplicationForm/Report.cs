@@ -30,9 +30,12 @@ namespace ColleageExamFreeApplicationForm
         Dictionary<String, int> 弱勢身分;
         Dictionary<String, int> 特種生加分類別;
         Dictionary<String, int> 其他比序項目_全民英檢;
-        Dictionary<String, int> 其他比序項目_多益測驗;
+        //Dictionary<String, int> 其他比序項目_多益測驗;
         BackgroundWorker _BW;
         string _SchoolName;
+
+        //功過換算比例
+        public static int MAB, MBC, DAB, DBC;
 
         public Report()
         {
@@ -45,7 +48,7 @@ namespace ColleageExamFreeApplicationForm
             弱勢身分 = new Dictionary<string, int>();
             特種生加分類別 = new Dictionary<string, int>();
             其他比序項目_全民英檢 = new Dictionary<string, int>();
-            其他比序項目_多益測驗 = new Dictionary<string, int>();
+            //其他比序項目_多益測驗 = new Dictionary<string, int>();
 
             報名資格.Add("國民中學非應屆畢業生", 0);
             報名資格.Add("同等學歷", 2);
@@ -97,9 +100,9 @@ namespace ColleageExamFreeApplicationForm
             其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 優級 初試及格", 9);
             其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 優級 複試及格", 10);
 
-            其他比序項目_多益測驗.Add("多益測驗 (TOEIC) 聽力 110 以上 閱讀 115 以上", 1);
-            其他比序項目_多益測驗.Add("多益測驗 (TOEIC) 聽力 275 以上 閱讀 275 以上", 2);
-            其他比序項目_多益測驗.Add("多益測驗 (TOEIC) 聽力 400 以上 閱讀 385 以上", 3);
+            //其他比序項目_多益測驗.Add("多益測驗 (TOEIC) 聽力 110 以上 閱讀 115 以上", 1);
+            //其他比序項目_多益測驗.Add("多益測驗 (TOEIC) 聽力 275 以上 閱讀 275 以上", 2);
+            //其他比序項目_多益測驗.Add("多益測驗 (TOEIC) 聽力 400 以上 閱讀 385 以上", 3);
 
             _SchoolName = K12.Data.School.ChineseName;
 
@@ -108,6 +111,13 @@ namespace ColleageExamFreeApplicationForm
             _BW.DoWork += new DoWorkEventHandler(DataBuilding);
             _BW.RunWorkerCompleted += new RunWorkerCompletedEventHandler(ReportBuilding);
             _BW.ProgressChanged += new ProgressChangedEventHandler(BW_Progress);
+
+            //取得功過換算比例
+            MeritDemeritReduceRecord mdrr = MeritDemeritReduce.Select();
+            MAB = mdrr.MeritAToMeritB.HasValue ? mdrr.MeritAToMeritB.Value : 0;
+            MBC = mdrr.MeritBToMeritC.HasValue ? mdrr.MeritBToMeritC.Value : 0;
+            DAB = mdrr.DemeritAToDemeritB.HasValue ? mdrr.DemeritAToDemeritB.Value : 0;
+            DBC = mdrr.DemeritBToDemeritC.HasValue ? mdrr.DemeritBToDemeritC.Value : 0;
         }
 
         private void BW_Progress(object sender, ProgressChangedEventArgs e)
@@ -268,38 +278,12 @@ namespace ColleageExamFreeApplicationForm
             }
 
             _BW.ReportProgress(45);
-            //取得功過換算比例
-            MeritDemeritReduceRecord mdrr = MeritDemeritReduce.Select();
-            int MAB = mdrr.MeritAToMeritB.HasValue ? mdrr.MeritAToMeritB.Value : 0;
-            int MBC = mdrr.MeritBToMeritC.HasValue ? mdrr.MeritBToMeritC.Value : 0;
-            int DAB = mdrr.DemeritAToDemeritB.HasValue ? mdrr.DemeritAToDemeritB.Value : 0;
-            int DBC = mdrr.DemeritBToDemeritC.HasValue ? mdrr.DemeritBToDemeritC.Value : 0;
-
+            
             _BW.ReportProgress(50);
             //獎懲紀錄功過相抵
             foreach (StudentObj obj in studentDic.Values)
             {
-                //if (!obj.HasDemeritAB)
-                //{
-                int merit = ((obj.MeritA * MAB) + obj.MeritB) * MBC + obj.MeritC;
-                int demerit = ((obj.DemeritA * DAB) + obj.DemeritB) * DBC + obj.DemeritC;
-
-                int total = merit - demerit;
-
-                if (total > 0)
-                {
-                    obj.MC = total % MBC;
-                    obj.MB = (total / MBC) % MAB;
-                    obj.MA = (total / MBC) / MAB;
-                }
-                else if (total < 0)
-                {
-                    total *= -1;
-                    obj.DC = total % DBC;
-                    obj.DB = (total / DBC) % DAB;
-                    obj.DA = (total / DBC) / DAB;
-                }
-                //}
+                obj.MeritDemeritTransfer();
             }
 
             _BW.ReportProgress(60);
@@ -450,7 +434,8 @@ namespace ColleageExamFreeApplicationForm
             CloumnIndex.Add("報名「中區」五專學校代碼", 47);
             CloumnIndex.Add("報名「南區」五專學校代碼", 48);
             CloumnIndex.Add("競賽名稱", 49);
-            CloumnIndex.Add("其他比序項目_多益測驗", 50);
+            //CloumnIndex.Add("其他比序項目_多益測驗", 50);
+
             int index = 1;
             Workbook wb = new Workbook(new MemoryStream(Properties.Resources.Template));
             Cells cs = wb.Worksheets[0].Cells;
@@ -501,7 +486,7 @@ namespace ColleageExamFreeApplicationForm
                 cs[index, CloumnIndex["綜合活動"]].PutValue(dic.ContainsKey("綜合活動") ? dic["綜合活動"] : 0);
                 cs[index, CloumnIndex["均衡學習"]].PutValue(obj.DomainItemScore);
                 cs[index, CloumnIndex["其他比序項目_全民英檢"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目_全民英檢));
-                cs[index, CloumnIndex["其他比序項目_多益測驗"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目_多益測驗));
+                //cs[index, CloumnIndex["其他比序項目_多益測驗"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目_多益測驗));
 
                 formula = "=IF(AF" + x + "+AH" + x + "+AJ" + x + "+AN" + x + "+AR" + x + ">30,30,AF" + x + "+AH" + x + "+AJ" + x + "+AN" + x + "+AR" + x + ")";
                 cs[index, CloumnIndex["合計"]].Formula = formula;
@@ -675,11 +660,11 @@ namespace ColleageExamFreeApplicationForm
                     all.Add(key);
             }
 
-            foreach (string key in 其他比序項目_多益測驗.Keys)
-            {
-                if (!all.Contains(key))
-                    all.Add(key);
-            }
+            //foreach (string key in 其他比序項目_多益測驗.Keys)
+            //{
+            //    if (!all.Contains(key))
+            //        all.Add(key);
+            //}
 
             foreach (string key in all)
             {
