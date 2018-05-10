@@ -548,6 +548,11 @@ namespace ColleageExamFreeApplicationForm
             //if (score > 6)
             //    score = 6;
 
+            if (sit_and_reach_degree == "免測" || standing_long_jump_degree == "免測" || sit_up_degree == "免測" || cardiorespiratory_degree == "免測")
+            {
+                score = 6;
+            }
+
             return score;
         }
 

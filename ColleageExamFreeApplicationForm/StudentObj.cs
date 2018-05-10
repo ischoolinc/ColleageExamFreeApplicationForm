@@ -206,6 +206,11 @@ namespace ColleageExamFreeApplicationForm
                     score += 2;
                 }
 
+                if (sit_and_reach_degree == "免測" || standing_long_jump_degree == "免測" || sit_up_degree == "免測" || cardiorespiratory_degree == "免測")
+                {
+                    score = 6;
+                }
+
                 if (score > 6)
                     score = 6;
 
@@ -239,7 +244,7 @@ namespace ColleageExamFreeApplicationForm
                     break;
             }
 
-            if (value == "金牌" || value == "銀牌" || value == "銅牌" || value == "中等")
+            if (value == "金牌" || value == "銀牌" || value == "銅牌" || value == "中等" || value =="免測")
             {
                 return 1;
             }
