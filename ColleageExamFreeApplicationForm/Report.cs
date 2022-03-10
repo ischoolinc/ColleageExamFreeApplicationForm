@@ -599,7 +599,7 @@ FROM
                     {
                         string domain = score.Domain;
 
-                        if ((domain == "健康與體育" || domain == "藝術與人文" || domain == "綜合活動") && !string.IsNullOrWhiteSpace(grade))
+                        if ((domain == "健康與體育" || domain == "藝術與人文" || domain == "藝術" || domain == "綜合活動" || domain == "科技") && !string.IsNullOrWhiteSpace(grade))
                         {
                             if (!studentDic[id].DomainScores.ContainsKey(domain))
                             {
@@ -665,17 +665,18 @@ FROM
             CloumnIndex.Add("健康與體育", 36);
             CloumnIndex.Add("藝術與人文", 37);
             CloumnIndex.Add("綜合活動", 38);
-            CloumnIndex.Add("均衡學習", 39);
-            CloumnIndex.Add("家長意見", 40);
-            CloumnIndex.Add("導師意見", 41);
-            CloumnIndex.Add("輔導教師意見", 42);
-            CloumnIndex.Add("適性輔導", 43);
-            CloumnIndex.Add("其他比序項目_全民英檢", 44);
-            CloumnIndex.Add("合計", 45);
-            CloumnIndex.Add("報名「北區」五專學校代碼", 46);
-            CloumnIndex.Add("報名「中區」五專學校代碼", 47);
-            CloumnIndex.Add("報名「南區」五專學校代碼", 48);
-            CloumnIndex.Add("競賽名稱", 49);
+            CloumnIndex.Add("科技", 39);
+            CloumnIndex.Add("均衡學習", 40);
+            CloumnIndex.Add("家長意見", 41);
+            CloumnIndex.Add("導師意見", 42);
+            CloumnIndex.Add("輔導教師意見", 43);
+            CloumnIndex.Add("適性輔導", 44);
+            CloumnIndex.Add("其他比序項目_全民英檢", 45);
+            CloumnIndex.Add("合計", 46);
+            CloumnIndex.Add("報名「北區」五專學校代碼", 47);
+            CloumnIndex.Add("報名「中區」五專學校代碼", 48);
+            CloumnIndex.Add("報名「南區」五專學校代碼", 49);
+            CloumnIndex.Add("競賽名稱", 50);
             //CloumnIndex.Add("其他比序項目_多益測驗", 50);
 
             int index = 1;
@@ -715,7 +716,7 @@ FROM
                 cs[index, CloumnIndex["體適能"]].PutValue(obj.SportFitnessScore);
 
                 int x = index + 1;
-                string formula = "=IF(P" + x + "+S" + x + "+Z" + x + "+AE" + x + ">16,16,P" + x + "+S" + x + "+Z" + x + "+AE" + x + ")";
+                string formula = "=IF(P" + x + "+S" + x + "+Z" + x + "+AE" + x + ">15,15,P" + x + "+S" + x + "+Z" + x + "+AE" + x + ")";
                 cs[index, CloumnIndex["多元學習表現"]].Formula = formula;
 
                 string[] tag = CheckTagId(obj.TagIds);
@@ -724,13 +725,14 @@ FROM
 
                 Dictionary<string, decimal> dic = obj.GetDomainScores();
                 cs[index, CloumnIndex["健康與體育"]].PutValue(dic.ContainsKey("健康與體育") ? dic["健康與體育"] : 0);
-                cs[index, CloumnIndex["藝術與人文"]].PutValue(dic.ContainsKey("藝術與人文") ? dic["藝術與人文"] : 0);
+                cs[index, CloumnIndex["藝術與人文"]].PutValue(dic.ContainsKey("藝術") ? dic["藝術"] : dic.ContainsKey("藝術與人文") ? dic["藝術與人文"] : 0);
                 cs[index, CloumnIndex["綜合活動"]].PutValue(dic.ContainsKey("綜合活動") ? dic["綜合活動"] : 0);
+                cs[index, CloumnIndex["科技"]].PutValue(dic.ContainsKey("科技") ? dic["科技"] : 0);
                 cs[index, CloumnIndex["均衡學習"]].PutValue(obj.DomainItemScore);
                 cs[index, CloumnIndex["其他比序項目_全民英檢"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目_全民英檢));
                 //cs[index, CloumnIndex["其他比序項目_多益測驗"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目_多益測驗));
 
-                formula = "=IF(AF" + x + "+AH" + x + "+AJ" + x + "+AN" + x + "+AR" + x + ">30,30,AF" + x + "+AH" + x + "+AJ" + x + "+AN" + x + "+AR" + x + ")";
+                formula = "=IF(AF" + x + "+AH" + x + "+AJ" + x + "+AO" + x + "+AS" + x + ">30,30,AF" + x + "+AH" + x + "+AJ" + x + "+AO" + x + "+AS" + x + ")";
                 cs[index, CloumnIndex["合計"]].Formula = formula;
 
                 index++;
@@ -799,9 +801,9 @@ FROM
         }
 
         //多元學習表現
-        private int GetScore(StudentObj obj)
+        private decimal GetScore(StudentObj obj)
         {
-            int score = obj.ServiceLearningScore;
+            decimal score = obj.ServiceLearningScore;
             score += obj.MeritDemeritScore;
             score += obj.SportFitnessScore;
 

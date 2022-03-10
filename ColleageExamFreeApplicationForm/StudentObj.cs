@@ -68,7 +68,23 @@ namespace ColleageExamFreeApplicationForm
                 {
                     if (domainAverageScores["健康與體育"] >= 60)
                     {
-                        score += 2;
+                        score += 7;
+                    }
+                }
+
+                if (domainAverageScores.ContainsKey("科技"))
+                {
+                    if (domainAverageScores["科技"] >= 60)
+                    {
+                        score += 7;
+                    }
+                }
+
+                if (domainAverageScores.ContainsKey("藝術"))
+                {
+                    if (domainAverageScores["藝術"] >= 60)
+                    {
+                        score += 7;
                     }
                 }
 
@@ -76,7 +92,7 @@ namespace ColleageExamFreeApplicationForm
                 {
                     if (domainAverageScores["藝術與人文"] >= 60)
                     {
-                        score += 2;
+                        score += 7;
                     }
                 }
 
@@ -84,9 +100,11 @@ namespace ColleageExamFreeApplicationForm
                 {
                     if (domainAverageScores["綜合活動"] >= 60)
                     {
-                        score += 2;
+                        score += 7;
                     }
                 }
+                if (score > 21)
+                    score = 21;
 
                 return score;
             }
@@ -119,15 +137,23 @@ namespace ColleageExamFreeApplicationForm
             }
         }
 
-        public int ServiceLearningScore
+        public decimal ServiceLearningScore
         {
             get
             {
-                int score = (int)(ServiceHours / 8);
-                score += CadreTimes;
+                //int score = (int)(ServiceHours / 8);
+                //score += CadreTimes;
 
-                if (score > 7)
-                    score = 7;
+                //if (score > 7)
+                //    score = 7;
+
+                //return score;
+
+                decimal score = (int)(ServiceHours) * 0.5m;
+                score += CadreTimes * 2;
+
+                if (score > 15)
+                    score = 15;
 
                 return score;
             }
