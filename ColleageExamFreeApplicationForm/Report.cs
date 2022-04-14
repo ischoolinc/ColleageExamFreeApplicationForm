@@ -839,6 +839,7 @@ FROM
 
         private string[] CheckTagId(List<string> list)
         {
+            List<string> tag15pointsList = new List<string> { "失業子女", "中低收入戶", "特殊境遇家庭" };
             string[] tag = new string[2];
             tag[0] = "0";
             tag[1] = "0";
@@ -848,10 +849,18 @@ FROM
                 {
                     if (_MappingData[tagName].Contains(sid))
                     {
-                        if (弱勢身分.ContainsKey(tagName))
+                        if (弱勢身分.ContainsKey(tagName) && tagName== "低收入戶")
                         {
                             tag[0] = 弱勢身分[tagName].ToString();
-                            tag[1] = "2";
+                            //tag[1] = "2";
+                            tag[1] = "3";
+                            return tag;
+                        }
+
+                        if (弱勢身分.ContainsKey(tagName)&& tag15pointsList.Contains(tagName))
+                        {
+                            tag[0] = 弱勢身分[tagName].ToString();
+                            tag[1] = "1.5";
                             return tag;
                         }
                     }
