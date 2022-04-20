@@ -19,7 +19,7 @@ using System.Windows.Forms;
 
 namespace ColleageExamFreeApplicationForm
 {
-    public partial class Report : BaseForm
+    public partial class Report_priority : BaseForm
     {
         AccessHelper _A = new AccessHelper();
         QueryHelper _Q = new QueryHelper();
@@ -37,7 +37,7 @@ namespace ColleageExamFreeApplicationForm
         //功過換算比例
         public static int MAB, MBC, DAB, DBC;
 
-        public Report()
+        public Report_priority()
         {
             InitializeComponent();
 
@@ -525,7 +525,7 @@ FROM
             //獎懲紀錄功過相抵
             foreach (StudentObj obj in studentDic.Values)
             {
-                obj.MeritDemeritTransfer();
+                obj.MeritDemeritTransfer_priority();
             }
 
             _BW.ReportProgress(60);
@@ -701,7 +701,7 @@ FROM
                 cs[index, CloumnIndex["報名費減免身分"]].PutValue(CheckTagId(obj.TagIds, 報名費減免身分));
                 cs[index, CloumnIndex["擔任幹部"]].PutValue(obj.CadreTimesScore);
                 cs[index, CloumnIndex["服務時數"]].PutValue(obj.ServiceHours);
-                cs[index, CloumnIndex["服務學習"]].PutValue(obj.ServiceLearningScore);
+                cs[index, CloumnIndex["服務學習"]].PutValue(obj.ServiceHoursScore_Priority);
                 cs[index, CloumnIndex["累計嘉獎"]].PutValue(obj.MeritC);
                 cs[index, CloumnIndex["累計小功"]].PutValue(obj.MeritB);
                 cs[index, CloumnIndex["累計大功"]].PutValue(obj.MeritA);
@@ -728,7 +728,7 @@ FROM
                 cs[index, CloumnIndex["藝術與人文"]].PutValue(dic.ContainsKey("藝術") ? dic["藝術"] : dic.ContainsKey("藝術與人文") ? dic["藝術與人文"] : 0);
                 cs[index, CloumnIndex["綜合活動"]].PutValue(dic.ContainsKey("綜合活動") ? dic["綜合活動"] : 0);
                 cs[index, CloumnIndex["科技"]].PutValue(dic.ContainsKey("科技") ? dic["科技"] : 0);
-                cs[index, CloumnIndex["均衡學習"]].PutValue(obj.DomainItemScore);
+                cs[index, CloumnIndex["均衡學習"]].PutValue(obj.DomainItemScore_Priority);
                 cs[index, CloumnIndex["其他比序項目_全民英檢"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目_全民英檢));
                 //cs[index, CloumnIndex["其他比序項目_多益測驗"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目_多益測驗));
 
@@ -803,7 +803,7 @@ FROM
         //多元學習表現
         private decimal GetScore(StudentObj obj)
         {
-            decimal score = obj.ServiceLearningScore;
+            decimal score = obj.ServiceHoursScore_Priority;
             score += obj.MeritDemeritScore;
             score += obj.SportFitnessScore;
 
@@ -1046,7 +1046,7 @@ FROM
             }
             catch
             {
-                MessageBox.Show("網路或資料庫異常,請稍後再試...");
+                MessageBox.Show("網路或資料庫異常，請稍候再試...");
             }
 
         }

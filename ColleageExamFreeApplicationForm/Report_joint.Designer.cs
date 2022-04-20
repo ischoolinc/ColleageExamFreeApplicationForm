@@ -1,6 +1,6 @@
 ﻿namespace ColleageExamFreeApplicationForm
 {
-    partial class Report
+    partial class Report_joint
     {
         /// <summary>
         /// Required designer variable.
@@ -201,7 +201,7 @@
             this.labelX2.TabIndex = 5;
             this.labelX2.Text = "超額比序積分資料採計截止日期:";
             // 
-            // Report
+            // Report_joint
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -213,8 +213,8 @@
             this.Controls.Add(this.buttonX1);
             this.Controls.Add(this.dataGridViewX1);
             this.DoubleBuffered = true;
-            this.Name = "Report";
-            this.Text = "五專集體報名表";
+            this.Name = "Report_joint";
+            this.Text = "南區五專聯合免試入學集體報名表";
             this.Load += new System.EventHandler(this.Report_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewX1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dateTimeInput1)).EndInit();

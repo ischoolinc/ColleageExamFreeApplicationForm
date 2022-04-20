@@ -57,8 +57,10 @@ namespace ColleageExamFreeApplicationForm
 
             return domainAverageScores;
         }
-
-        public int DomainItemScore
+        /// <summary>
+        /// 優先
+        /// </summary>
+        public int DomainItemScore_Priority
         {
             get
             {
@@ -111,18 +113,54 @@ namespace ColleageExamFreeApplicationForm
         }
 
 
-        //public int ServiceHoursScore
-        //{
-        //    get
-        //    {
-        //        int score = (int)(ServiceHours / 8);
+        /// <summary>
+        /// 聯合均衡學習：每一個領域滿60分得2分，上限6分。(2021-12 Cynthia)
+        /// </summary>
+        /// https://3.basecamp.com/4399967/buckets/15852426/todos/4417454620
+        public int DomainItemScore
+        {
+            get
+            {
+                int score = 0;
 
-        //        if (score > 99)
-        //            score = 99;
+                if (domainAverageScores.ContainsKey("健康與體育"))
+                {
+                    if (domainAverageScores["健康與體育"] >= 60)
+                    {
+                        score += 2;
+                    }
+                }
 
-        //        return score;
-        //    }
-        //}
+                if (domainAverageScores.ContainsKey("藝術"))
+                {
+                    if (domainAverageScores["藝術"] >= 60)
+                    {
+                        score += 2;
+                    }
+                }
+
+                if (domainAverageScores.ContainsKey("科技"))
+                {
+                    if (domainAverageScores["科技"] >= 60)
+                    {
+                        score += 2;
+                    }
+                }
+
+                if (domainAverageScores.ContainsKey("綜合活動"))
+                {
+                    if (domainAverageScores["綜合活動"] >= 60)
+                    {
+                        score += 2;
+                    }
+                }
+
+                if (score > 6)
+                    score = 6;
+
+                return score;
+            }
+        }
 
         public int CadreTimesScore
         {
@@ -137,7 +175,11 @@ namespace ColleageExamFreeApplicationForm
             }
         }
 
-        public decimal ServiceLearningScore
+        /// <summary>
+        /// 優先服務學習: 每1小時0.5分，上限15分
+        /// </summary>
+        /// https://3.basecamp.com/4399967/buckets/15852426/todos/4417454620
+        public decimal ServiceHoursScore_Priority
         {
             get
             {
@@ -154,6 +196,24 @@ namespace ColleageExamFreeApplicationForm
 
                 if (score > 15)
                     score = 15;
+
+                return score;
+            }
+        }
+
+        /// <summary>
+        /// 聯合服務時數：4小時1分，上限7分
+        /// </summary>
+        /// https://3.basecamp.com/4399967/buckets/15852426/todos/4417454620
+        public int ServiceHoursScore
+        {
+            get
+            {
+                int score = (int)(ServiceHours / 4);
+                score += CadreTimes;
+
+                if (score > 7)
+                    score = 7;
 
                 return score;
             }
@@ -340,18 +400,58 @@ namespace ColleageExamFreeApplicationForm
             
         }
 
+
         public void MeritDemeritTransfer()
         {
-            int merit = ((MeritA * Report.MAB) + MeritB) * Report.MBC + MeritC;
-            int demerit = ((DemeritA * Report.DAB) + DemeritB) * Report.DBC + DemeritC;
+            int merit = ((MeritA * Report_joint.MAB) + MeritB) * Report_joint.MBC + MeritC;
+            int demerit = ((DemeritA * Report_joint.DAB) + DemeritB) * Report_joint.DBC + DemeritC;
 
             int total = merit - demerit;
 
             if (total > 0)
             {
-                MC = total % Report.MBC;
-                MB = (total / Report.MBC) % Report.MAB;
-                MA = (total / Report.MBC) / Report.MAB;
+                MC = total % Report_joint.MBC;
+                MB = (total / Report_joint.MBC) % Report_joint.MAB;
+                MA = (total / Report_joint.MBC) / Report_joint.MAB;
+                /*
+                //最小單位先存起來
+                MC = total;
+
+                //原始紀錄有大功或小功必須先轉換一次
+                if (MeritA > 0 || MeritB > 0)
+                {
+                    MB = MC / Report.MBC;
+                    MC = MC % Report.MBC;
+                }
+
+                //原始紀錄有大功再轉一次
+                if (MeritA > 0)
+                {
+                    MA = MB / Report.MAB;
+                    MB = MB % Report.MAB;
+                }
+                 * */
+            }
+            else if (total < 0)
+            {
+                total *= -1;
+                DC = total % Report_joint.DBC;
+                DB = (total / Report_joint.DBC) % Report_joint.DAB;
+                DA = (total / Report_joint.DBC) / Report_joint.DAB;
+            }
+        }
+        public void MeritDemeritTransfer_priority()
+        {
+            int merit = ((MeritA * Report_priority.MAB) + MeritB) * Report_priority.MBC + MeritC;
+            int demerit = ((DemeritA * Report_priority.DAB) + DemeritB) * Report_priority.DBC + DemeritC;
+
+            int total = merit - demerit;
+
+            if (total > 0)
+            {
+                MC = total % Report_priority.MBC;
+                MB = (total / Report_priority.MBC) % Report_priority.MAB;
+                MA = (total / Report_priority.MBC) / Report_priority.MAB;
 
                 /*
                 //最小單位先存起來
@@ -375,9 +475,9 @@ namespace ColleageExamFreeApplicationForm
             else if (total < 0)
             {
                 total *= -1;
-                DC = total % Report.DBC;
-                DB = (total / Report.DBC) % Report.DAB;
-                DA = (total / Report.DBC) / Report.DAB;
+                DC = total % Report_priority.DBC;
+                DB = (total / Report_priority.DBC) % Report_priority.DAB;
+                DA = (total / Report_priority.DBC) / Report_priority.DAB;
             }
         }
 
