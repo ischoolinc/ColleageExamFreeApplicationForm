@@ -732,7 +732,10 @@ FROM
                 cs[index, CloumnIndex["其他比序項目_全民英檢"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目_全民英檢));
                 //cs[index, CloumnIndex["其他比序項目_多益測驗"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目_多益測驗));
 
-                formula = "=IF(AF" + x + "+AH" + x + "+AJ" + x + "+AO" + x + "+AS" + x + ">30,30,AF" + x + "+AH" + x + "+AJ" + x + "+AO" + x + "+AS" + x + ")";
+                // 2022-04-21 高雄小組LINE
+                // 繼斌: 經與五專優免負責學校聯絡確認  "學生資料檔案規格"的「合計積分」規格是有誤的，無上限30分規則哦
+                // Asia Wang:上限是42分
+                formula = "=IF(AF" + x + "+AH" + x + "+AJ" + x + "+AO" + x + "+AS" + x + ">42,42,AF" + x + "+AH" + x + "+AJ" + x + "+AO" + x + "+AS" + x + ")";
                 cs[index, CloumnIndex["合計"]].Formula = formula;
 
                 index++;
