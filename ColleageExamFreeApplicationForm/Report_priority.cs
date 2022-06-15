@@ -716,7 +716,8 @@ FROM
                 cs[index, CloumnIndex["體適能"]].PutValue(obj.SportFitnessScore);
 
                 int x = index + 1;
-                string formula = "=IF(P" + x + "+S" + x + "+Z" + x + "+AE" + x + ">15,15,P" + x + "+S" + x + "+Z" + x + "+AE" + x + ")";
+                //string formula = "=IF(P" + x + "+S" + x + "+Z" + x + "+AE" + x + ">15,15,P" + x + "+S" + x + "+Z" + x + "+AE" + x + ")";
+                string formula = "=IF(P" + x + "+S" + x +  ">15,15,P" + x + "+S" + x +  ")";
                 cs[index, CloumnIndex["多元學習表現"]].Formula = formula;
 
                 string[] tag = CheckTagId(obj.TagIds);
