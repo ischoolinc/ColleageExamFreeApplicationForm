@@ -637,7 +637,7 @@ FROM
             CloumnIndex.Add("報名資格", 8);
             CloumnIndex.Add("郵遞區號", 9);
             CloumnIndex.Add("地址", 10);
-            CloumnIndex.Add("市內電話", 11);
+            CloumnIndex.Add("住家電話", 11);
             CloumnIndex.Add("行動電話", 12);
             CloumnIndex.Add("特種生加分類別", 13);
             CloumnIndex.Add("報名費減免身分", 14);
@@ -658,7 +658,7 @@ FROM
             CloumnIndex.Add("心肺耐力", 29);
             CloumnIndex.Add("體適能", 30);
             CloumnIndex.Add("多元學習表現", 31);
-            CloumnIndex.Add("技藝教育成績", 32);
+            CloumnIndex.Add("技藝教育課程成績", 32);
             CloumnIndex.Add("技藝優良", 33);
             CloumnIndex.Add("弱勢身分", 34);
             CloumnIndex.Add("弱勢積分", 35);
@@ -695,7 +695,7 @@ FROM
                 cs[index, CloumnIndex["報名資格"]].PutValue(CheckTagId(obj.TagIds, 報名資格));
                 cs[index, CloumnIndex["郵遞區號"]].PutValue(obj.ZipCode);
                 cs[index, CloumnIndex["地址"]].PutValue(obj.Address);
-                cs[index, CloumnIndex["市內電話"]].PutValue(obj.Contact_Phone);
+                cs[index, CloumnIndex["住家電話"]].PutValue(obj.Contact_Phone);
                 cs[index, CloumnIndex["行動電話"]].PutValue(obj.SMS_Phone);
                 cs[index, CloumnIndex["特種生加分類別"]].PutValue(CheckTagId(obj.TagIds, 特種生加分類別));
                 cs[index, CloumnIndex["報名費減免身分"]].PutValue(CheckTagId(obj.TagIds, 報名費減免身分));
