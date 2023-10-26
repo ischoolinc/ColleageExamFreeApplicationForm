@@ -176,9 +176,10 @@ namespace ColleageExamFreeApplicationForm
         }
 
         /// <summary>
-        /// 優先服務學習: 每1小時0.5分，上限15分
+        /// 優先服務學習: 每1小時0.25分，上限15分，old:每1小時0.5分，上限15分。
         /// </summary>
         /// https://3.basecamp.com/4399967/buckets/15852426/todos/4417454620
+        /// https://3.basecamp.com/4399967/buckets/15852426/todos/6692639656   2023/10/26
         public decimal ServiceHoursScore_Priority
         {
             get
@@ -191,7 +192,7 @@ namespace ColleageExamFreeApplicationForm
 
                 //return score;
 
-                decimal score = (int)(ServiceHours) * 0.5m;
+                decimal score = (int)(ServiceHours) * 0.25m;
                 score += CadreTimes * 2;
 
                 if (score > 15)
@@ -202,14 +203,15 @@ namespace ColleageExamFreeApplicationForm
         }
 
         /// <summary>
-        /// 聯合服務時數：4小時1分，上限7分
+        /// 聯合服務時數：8小時1分，上限7分,old:4小時1分，上限7分
         /// </summary>
         /// https://3.basecamp.com/4399967/buckets/15852426/todos/4417454620
+        /// https://3.basecamp.com/4399967/buckets/15852426/todos/6692639656 2023/10/26
         public int ServiceHoursScore
         {
             get
             {
-                int score = (int)(ServiceHours / 4);
+                int score = (int)(ServiceHours / 8);
                 score += CadreTimes;
 
                 if (score > 7)
