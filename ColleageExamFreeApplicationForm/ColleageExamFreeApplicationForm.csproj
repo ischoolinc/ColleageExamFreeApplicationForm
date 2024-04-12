@@ -97,32 +97,41 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Report_joint.cs">
+    <Compile Include="聯合免試\Report_joint.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Report_joint.Designer.cs">
+    <Compile Include="聯合免試\Report_joint.Designer.cs">
       <DependentUpon>Report_joint.cs</DependentUpon>
     </Compile>
-    <Compile Include="Report_priority.cs">
+    <Compile Include="優先免試\Report_priority.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Report_priority.Designer.cs">
+    <Compile Include="優先免試\Report_priority.Designer.cs">
       <DependentUpon>Report_priority.cs</DependentUpon>
     </Compile>
     <Compile Include="PrioritySetting.cs" />
     <Compile Include="Setting.cs" />
     <Compile Include="StudentObj.cs" />
+    <Compile Include="完全免試\Report_Completely.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="完全免試\Report_Completely.Designer.cs">
+      <DependentUpon>Report_Completely.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Report_joint.resx">
+    <EmbeddedResource Include="聯合免試\Report_joint.resx">
       <DependentUpon>Report_joint.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Report_priority.resx">
+    <EmbeddedResource Include="優先免試\Report_priority.resx">
       <DependentUpon>Report_priority.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="完全免試\Report_Completely.resx">
+      <DependentUpon>Report_Completely.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

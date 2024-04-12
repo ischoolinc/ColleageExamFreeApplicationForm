@@ -19,7 +19,7 @@ using System.Windows.Forms;
 
 namespace ColleageExamFreeApplicationForm
 {
-    public partial class Report_priority : BaseForm
+    public partial class Report_joint : BaseForm
     {
         AccessHelper _A = new AccessHelper();
         QueryHelper _Q = new QueryHelper();
@@ -29,7 +29,7 @@ namespace ColleageExamFreeApplicationForm
         Dictionary<String, int> 報名費減免身分;
         Dictionary<String, int> 弱勢身分;
         Dictionary<String, int> 特種生加分類別;
-        //Dictionary<String, int> 其他比序項目_全民英檢;
+        Dictionary<String, int> 其他比序項目_全民英檢;
         //Dictionary<String, int> 其他比序項目_多益測驗;
         BackgroundWorker _BW;
         string _SchoolName;
@@ -37,7 +37,7 @@ namespace ColleageExamFreeApplicationForm
         //功過換算比例
         public static int MAB, MBC, DAB, DBC;
 
-        public Report_priority()
+        public Report_joint()
         {
             InitializeComponent();
 
@@ -47,7 +47,7 @@ namespace ColleageExamFreeApplicationForm
             報名費減免身分 = new Dictionary<string, int>();
             弱勢身分 = new Dictionary<string, int>();
             特種生加分類別 = new Dictionary<string, int>();
-            //其他比序項目_全民英檢 = new Dictionary<string, int>();
+            其他比序項目_全民英檢 = new Dictionary<string, int>();
             //其他比序項目_多益測驗 = new Dictionary<string, int>();
 
             // 2018/05/15 穎驊 新增 統計資料截止時間以利產生正確的範圍時間內資料
@@ -93,16 +93,16 @@ namespace ColleageExamFreeApplicationForm
             特種生加分類別.Add("退伍軍人-因作戰或因公成殘領有撫卹證明，於免役、除役後未滿五年", 25);
             特種生加分類別.Add("退伍軍人-因病成殘領有撫卹證明，於免役、除役後未滿五年", 26);
 
-            //其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 初級 初試及格", 1);
-            //其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 初級 複試及格", 2);
-            //其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 中級 初試及格", 3);
-            //其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 中級 複試及格", 4);
-            //其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 中高級 初試及格", 5);
-            //其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 中高級 複試及格", 6);
-            //其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 高級 初試及格", 7);
-            //其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 高級 複試及格", 8);
-            //其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 優級 初試及格", 9);
-            //其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 優級 複試及格", 10);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 初級 初試及格", 1);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 初級 複試及格", 2);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 中級 初試及格", 3);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 中級 複試及格", 4);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 中高級 初試及格", 5);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 中高級 複試及格", 6);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 高級 初試及格", 7);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 高級 複試及格", 8);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 優級 初試及格", 9);
+            其他比序項目_全民英檢.Add("全民英語能力分級檢定測驗 GEPT 優級 複試及格", 10);
 
             //其他比序項目_多益測驗.Add("多益測驗 (TOEIC) 聽力 110 以上 閱讀 115 以上", 1);
             //其他比序項目_多益測驗.Add("多益測驗 (TOEIC) 聽力 275 以上 閱讀 275 以上", 2);
@@ -520,12 +520,12 @@ FROM
             }
 
             _BW.ReportProgress(45);
-            
+
             _BW.ReportProgress(50);
             //獎懲紀錄功過相抵
             foreach (StudentObj obj in studentDic.Values)
             {
-                obj.MeritDemeritTransfer_priority();
+                obj.MeritDemeritTransfer();
             }
 
             _BW.ReportProgress(60);
@@ -645,42 +645,42 @@ FROM
             CloumnIndex.Add("擔任幹部", 16);
             CloumnIndex.Add("服務時數", 17);
             CloumnIndex.Add("服務學習", 18);
-            //CloumnIndex.Add("累計嘉獎", 19);
-            //CloumnIndex.Add("累計小功", 20);
-            //CloumnIndex.Add("累計大功", 21);
-            //CloumnIndex.Add("累計警告", 22);
-            //CloumnIndex.Add("累計小過", 23);
-            //CloumnIndex.Add("累計大過", 24);
-            //CloumnIndex.Add("日常生活表現評量", 25);
-            //CloumnIndex.Add("肌耐力", 26);
-            //CloumnIndex.Add("柔軟度", 27);
-            //CloumnIndex.Add("瞬發力", 28);
-            //CloumnIndex.Add("心肺耐力", 29);
-            //CloumnIndex.Add("體適能", 30);
-            CloumnIndex.Add("多元學習表現", 19);//31
-            CloumnIndex.Add("技藝教育課程成績", 20);
-            CloumnIndex.Add("技藝優良", 21);
-            CloumnIndex.Add("弱勢身分", 22);
-            CloumnIndex.Add("弱勢積分", 23);
-            CloumnIndex.Add("健康與體育", 24);
-            CloumnIndex.Add("藝術與人文", 25);
-            CloumnIndex.Add("綜合活動", 26);
-            CloumnIndex.Add("科技", 27);
-            CloumnIndex.Add("均衡學習", 28);
-            //CloumnIndex.Add("家長意見", 41);
-            //CloumnIndex.Add("導師意見", 42);
-            //CloumnIndex.Add("輔導教師意見", 43);
-            //CloumnIndex.Add("適性輔導", 44);
-            //CloumnIndex.Add("其他比序項目_全民英檢", 45);
-            CloumnIndex.Add("合計", 29);
-            //CloumnIndex.Add("報名「北區」五專學校代碼", 47);
-            //CloumnIndex.Add("報名「中區」五專學校代碼", 48);
-            //CloumnIndex.Add("報名「南區」五專學校代碼", 49);
-            CloumnIndex.Add("競賽名稱", 30);
+            CloumnIndex.Add("累計嘉獎", 19);
+            CloumnIndex.Add("累計小功", 20);
+            CloumnIndex.Add("累計大功", 21);
+            CloumnIndex.Add("累計警告", 22);
+            CloumnIndex.Add("累計小過", 23);
+            CloumnIndex.Add("累計大過", 24);
+            CloumnIndex.Add("日常生活表現評量", 25);
+            CloumnIndex.Add("肌耐力", 26);
+            CloumnIndex.Add("柔軟度", 27);
+            CloumnIndex.Add("瞬發力", 28);
+            CloumnIndex.Add("心肺耐力", 29);
+            CloumnIndex.Add("體適能", 30);
+            CloumnIndex.Add("多元學習表現", 31);
+            CloumnIndex.Add("技藝教育課程成績", 32);
+            CloumnIndex.Add("技藝優良", 33);
+            CloumnIndex.Add("弱勢身分", 34);
+            CloumnIndex.Add("弱勢積分", 35);
+            CloumnIndex.Add("健康與體育", 36);
+            CloumnIndex.Add("藝術與人文", 37);
+            CloumnIndex.Add("綜合活動", 38);
+            CloumnIndex.Add("科技", 39);
+            CloumnIndex.Add("均衡學習", 40);
+            CloumnIndex.Add("家長意見", 41);
+            CloumnIndex.Add("導師意見", 42);
+            CloumnIndex.Add("輔導教師意見", 43);
+            CloumnIndex.Add("適性輔導", 44);
+            CloumnIndex.Add("其他比序項目_全民英檢", 45);
+            CloumnIndex.Add("合計", 46);
+            CloumnIndex.Add("報名「北區」五專學校代碼", 47);
+            CloumnIndex.Add("報名「中區」五專學校代碼", 48);
+            CloumnIndex.Add("報名「南區」五專學校代碼", 49);
+            CloumnIndex.Add("競賽名稱", 50);
             //CloumnIndex.Add("其他比序項目_多益測驗", 50);
 
             int index = 1;
-            Workbook wb = new Workbook(new MemoryStream(Properties.Resources.Template_Priority));
+            Workbook wb = new Workbook(new MemoryStream(Properties.Resources.Template));
             Cells cs = wb.Worksheets[0].Cells;
             foreach (StudentObj obj in list)
             {
@@ -701,23 +701,22 @@ FROM
                 cs[index, CloumnIndex["報名費減免身分"]].PutValue(CheckTagId(obj.TagIds, 報名費減免身分));
                 cs[index, CloumnIndex["擔任幹部"]].PutValue(obj.CadreTimesScore);
                 cs[index, CloumnIndex["服務時數"]].PutValue(obj.ServiceHours);
-                cs[index, CloumnIndex["服務學習"]].PutValue(obj.ServiceHoursScore_Priority);
-                //cs[index, CloumnIndex["累計嘉獎"]].PutValue(obj.MeritC);
-                //cs[index, CloumnIndex["累計小功"]].PutValue(obj.MeritB);
-                //cs[index, CloumnIndex["累計大功"]].PutValue(obj.MeritA);
-                //cs[index, CloumnIndex["累計警告"]].PutValue(obj.DemeritC);
-                //cs[index, CloumnIndex["累計小過"]].PutValue(obj.DemeritB);
-                //cs[index, CloumnIndex["累計大過"]].PutValue(obj.DemeritA);
-                //cs[index, CloumnIndex["日常生活表現評量"]].PutValue(obj.MeritDemeritScore);
-                //cs[index, CloumnIndex["肌耐力"]].PutValue(obj.CheckScore("仰臥起坐"));
-                //cs[index, CloumnIndex["柔軟度"]].PutValue(obj.CheckScore("坐姿體前彎"));
-                //cs[index, CloumnIndex["瞬發力"]].PutValue(obj.CheckScore("立定跳遠"));
-                //cs[index, CloumnIndex["心肺耐力"]].PutValue(obj.CheckScore("心肺適能"));
-                //cs[index, CloumnIndex["體適能"]].PutValue(obj.SportFitnessScore);
+                cs[index, CloumnIndex["服務學習"]].PutValue(obj.ServiceHoursScore);
+                cs[index, CloumnIndex["累計嘉獎"]].PutValue(obj.MeritC);
+                cs[index, CloumnIndex["累計小功"]].PutValue(obj.MeritB);
+                cs[index, CloumnIndex["累計大功"]].PutValue(obj.MeritA);
+                cs[index, CloumnIndex["累計警告"]].PutValue(obj.DemeritC);
+                cs[index, CloumnIndex["累計小過"]].PutValue(obj.DemeritB);
+                cs[index, CloumnIndex["累計大過"]].PutValue(obj.DemeritA);
+                cs[index, CloumnIndex["日常生活表現評量"]].PutValue(obj.MeritDemeritScore);
+                cs[index, CloumnIndex["肌耐力"]].PutValue(obj.CheckScore("仰臥起坐"));
+                cs[index, CloumnIndex["柔軟度"]].PutValue(obj.CheckScore("坐姿體前彎"));
+                cs[index, CloumnIndex["瞬發力"]].PutValue(obj.CheckScore("立定跳遠"));
+                cs[index, CloumnIndex["心肺耐力"]].PutValue(obj.CheckScore("心肺適能"));
+                cs[index, CloumnIndex["體適能"]].PutValue(obj.SportFitnessScore);
 
                 int x = index + 1;
-                //string formula = "=IF(P" + x + "+S" + x + "+Z" + x + "+AE" + x + ">15,15,P" + x + "+S" + x + "+Z" + x + "+AE" + x + ")";
-                string formula = "=IF(P" + x + "+S" + x +  ">15,15,P" + x + "+S" + x +  ")";
+                string formula = "=IF(P" + x + "+S" + x + "+Z" + x + "+AE" + x + ">16,16,P" + x + "+S" + x + "+Z" + x + "+AE" + x + ")";
                 cs[index, CloumnIndex["多元學習表現"]].Formula = formula;
 
                 string[] tag = CheckTagId(obj.TagIds);
@@ -729,18 +728,11 @@ FROM
                 cs[index, CloumnIndex["藝術與人文"]].PutValue(dic.ContainsKey("藝術") ? dic["藝術"] : dic.ContainsKey("藝術與人文") ? dic["藝術與人文"] : 0);
                 cs[index, CloumnIndex["綜合活動"]].PutValue(dic.ContainsKey("綜合活動") ? dic["綜合活動"] : 0);
                 cs[index, CloumnIndex["科技"]].PutValue(dic.ContainsKey("科技") ? dic["科技"] : 0);
-                cs[index, CloumnIndex["均衡學習"]].PutValue(obj.DomainItemScore_Priority);
-                //cs[index, CloumnIndex["其他比序項目_全民英檢"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目_全民英檢));
+                cs[index, CloumnIndex["均衡學習"]].PutValue(obj.DomainItemScore);
+                cs[index, CloumnIndex["其他比序項目_全民英檢"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目_全民英檢));
                 //cs[index, CloumnIndex["其他比序項目_多益測驗"]].PutValue(CheckTagId(obj.TagIds, 其他比序項目_多益測驗));
 
-                // 2022-04-21 高雄小組LINE
-                // 繼斌: 經與五專優免負責學校聯絡確認  "學生資料檔案規格"的「合計積分」規格是有誤的，無上限30分規則哦
-                // Asia Wang:上限是42分
-                //formula = "=IF(AF" + x + "+AH" + x + "+AJ" + x + "+AO" + x + "+AS" + x + ">42,42,AF" + x + "+AH" + x + "+AJ" + x + "+AO" + x + "+AS" + x + ")";
-                // 2023-05-09 改版
-                //https://3.basecamp.com/4399967/buckets/15765350/todos/6067628707
-                //=IF(T4+V4+X4+AC4>42,42,T4+V4+X4+AC4)
-                formula = "=IF(T" + x + "+V" + x + "+X" + x + "+AC" + x + ">42,42,T" + x + "+V" + x + "+X" + x + "+AC" + x + ")";
+                formula = "=IF(AF" + x + "+AH" + x + "+AJ" + x + "+AO" + x + "+AS" + x + ">30,30,AF" + x + "+AH" + x + "+AJ" + x + "+AO" + x + "+AS" + x + ")";
                 cs[index, CloumnIndex["合計"]].Formula = formula;
 
                 index++;
@@ -811,7 +803,7 @@ FROM
         //多元學習表現
         private decimal GetScore(StudentObj obj)
         {
-            decimal score = obj.ServiceHoursScore_Priority;
+            decimal score = obj.ServiceHoursScore;
             score += obj.MeritDemeritScore;
             score += obj.SportFitnessScore;
 
@@ -847,7 +839,6 @@ FROM
 
         private string[] CheckTagId(List<string> list)
         {
-            List<string> tag15pointsList = new List<string> { "失業子女", "中低收入戶", "特殊境遇家庭" };
             string[] tag = new string[2];
             tag[0] = "0";
             tag[1] = "0";
@@ -857,20 +848,13 @@ FROM
                 {
                     if (_MappingData[tagName].Contains(sid))
                     {
-                        if (弱勢身分.ContainsKey(tagName) && tagName== "低收入戶")
+                        if (弱勢身分.ContainsKey(tagName))
                         {
                             tag[0] = 弱勢身分[tagName].ToString();
-                            //tag[1] = "2";
-                            tag[1] = "3";
+                            tag[1] = "2";
                             return tag;
                         }
 
-                        if (弱勢身分.ContainsKey(tagName)&& tag15pointsList.Contains(tagName))
-                        {
-                            tag[0] = 弱勢身分[tagName].ToString();
-                            tag[1] = "1.5";
-                            return tag;
-                        }
                     }
                 }
             }
@@ -920,11 +904,11 @@ FROM
                     all.Add(key);
             }
 
-            //foreach (string key in 其他比序項目_全民英檢.Keys)
-            //{
-            //    if (!all.Contains(key))
-            //        all.Add(key);
-            //}
+            foreach (string key in 其他比序項目_全民英檢.Keys)
+            {
+                if (!all.Contains(key))
+                    all.Add(key);
+            }
 
             //foreach (string key in 其他比序項目_多益測驗.Keys)
             //{
@@ -978,7 +962,7 @@ FROM
 
         private void SaveSetting()
         {
-            List<PrioritySetting> UDTlist = _A.Select<PrioritySetting>();
+            List<Setting> UDTlist = _A.Select<Setting>();
             _A.DeletedValues(UDTlist); //清除UDT資料
 
             UDTlist.Clear(); //清空UDTlist
@@ -993,7 +977,7 @@ FROM
                 String source = "";
                 if (row.Cells[1].Value != null) { source = row.Cells[1].Value.ToString(); }
 
-                PrioritySetting obj = new PrioritySetting();
+                Setting obj = new Setting();
                 obj.Target = target;
                 obj.Source = source;
                 UDTlist.Add(obj);
@@ -1004,9 +988,9 @@ FROM
 
         private void LoadSetting()
         {
-            List<PrioritySetting> UDTlist = _A.Select<PrioritySetting>(); //檢查UDT並回傳資料
+            List<Setting> UDTlist = _A.Select<Setting>(); //檢查UDT並回傳資料
 
-            UDTlist.Sort(delegate(PrioritySetting x, PrioritySetting y)
+            UDTlist.Sort(delegate (Setting x, Setting y)
             {
                 string xx = x.UID.PadLeft(10, '0');
                 string yy = y.UID.PadLeft(10, '0');
@@ -1032,6 +1016,11 @@ FROM
             }
         }
 
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
         private void Report_Load(object sender, EventArgs e)
         {
             LoadSetting();
@@ -1047,7 +1036,7 @@ FROM
         {
             try
             {
-                List<PrioritySetting> UDTlist = _A.Select<PrioritySetting>();
+                List<Setting> UDTlist = _A.Select<Setting>();
                 _A.DeletedValues(UDTlist); //清除UDT資料
                 dataGridViewX1.Rows.Clear();  //清除datagridview資料
                 LoadSetting(); //再次讀入Mapping設定
