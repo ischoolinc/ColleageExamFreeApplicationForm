@@ -518,16 +518,16 @@ namespace ColleageExamFreeApplicationForm
         }
         public void MeritDemeritTransfer_priority()
         {
-            int merit = ((MeritA * Report_Completely.MAB) + MeritB) * Report_Completely.MBC + MeritC;
-            int demerit = ((DemeritA * Report_Completely.DAB) + DemeritB) * Report_Completely.DBC + DemeritC;
+            int merit = ((MeritA * Report_priority.MAB) + MeritB) * Report_priority.MBC + MeritC;
+            int demerit = ((DemeritA * Report_priority.DAB) + DemeritB) * Report_priority.DBC + DemeritC;
 
             int total = merit - demerit;
 
             if (total > 0)
             {
-                MC = total % Report_Completely.MBC;
-                MB = (total / Report_Completely.MBC) % Report_Completely.MAB;
-                MA = (total / Report_Completely.MBC) / Report_Completely.MAB;
+                MC = total % Report_priority.MBC;
+                MB = (total / Report_priority.MBC) % Report_priority.MAB;
+                MA = (total / Report_priority.MBC) / Report_priority.MAB;
 
                 /*
                 //最小單位先存起來
@@ -547,6 +547,29 @@ namespace ColleageExamFreeApplicationForm
                     MB = MB % Report.MAB;
                 }
                  * */
+            }
+            else if (total < 0)
+            {
+                total *= -1;
+                DC = total % Report_priority.DBC;
+                DB = (total / Report_priority.DBC) % Report_priority.DAB;
+                DA = (total / Report_priority.DBC) / Report_priority.DAB;
+            }
+        }
+
+        public void MeritDemeritTransfer_Completely()
+        {
+            int merit = ((MeritA * Report_Completely.MAB) + MeritB) * Report_Completely.MBC + MeritC;
+            int demerit = ((DemeritA * Report_Completely.DAB) + DemeritB) * Report_Completely.DBC + DemeritC;
+
+            int total = merit - demerit;
+
+            if (total > 0)
+            {
+                MC = total % Report_Completely.MBC;
+                MB = (total / Report_Completely.MBC) % Report_Completely.MAB;
+                MA = (total / Report_Completely.MBC) / Report_Completely.MAB;
+
             }
             else if (total < 0)
             {

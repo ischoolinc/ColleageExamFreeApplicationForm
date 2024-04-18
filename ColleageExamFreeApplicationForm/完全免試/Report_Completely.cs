@@ -525,7 +525,7 @@ FROM
             //獎懲紀錄功過相抵
             foreach (StudentObj obj in studentDic.Values)
             {
-                obj.MeritDemeritTransfer_priority();
+                obj.MeritDemeritTransfer_Completely();
             }
 
             _BW.ReportProgress(60);
