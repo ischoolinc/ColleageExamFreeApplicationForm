@@ -137,7 +137,7 @@ namespace ColleageExamFreeApplicationForm
             Workbook wb = (Workbook)e.Result;
             SaveFileDialog sd = new SaveFileDialog();
             sd.Title = "另存新檔";
-            sd.FileName = Global.ReportName + ".xls";
+            sd.FileName = Global.ReportName + "(優先免試)" + ".xls";
             sd.Filter = "Excel檔案 (*.xls)|*.xls|所有檔案 (*.*)|*.*";
             if (sd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -520,7 +520,7 @@ FROM
             }
 
             _BW.ReportProgress(45);
-            
+
             _BW.ReportProgress(50);
             //獎懲紀錄功過相抵
             foreach (StudentObj obj in studentDic.Values)
@@ -681,6 +681,11 @@ FROM
 
             int index = 1;
             Workbook wb = new Workbook(new MemoryStream(Properties.Resources.Template_Priority));
+
+            int defSchoolyear = 0;
+            int.TryParse(K12.Data.School.DefaultSchoolYear, out defSchoolyear);
+            wb.Worksheets[0].Cells[31].Value = string.Format("是否報考{0}年國中教育會考", defSchoolyear + 1);
+
             Cells cs = wb.Worksheets[0].Cells;
             foreach (StudentObj obj in list)
             {
@@ -717,7 +722,7 @@ FROM
 
                 int x = index + 1;
                 //string formula = "=IF(P" + x + "+S" + x + "+Z" + x + "+AE" + x + ">15,15,P" + x + "+S" + x + "+Z" + x + "+AE" + x + ")";
-                string formula = "=IF(P" + x + "+S" + x +  ">15,15,P" + x + "+S" + x +  ")";
+                string formula = "=IF(P" + x + "+S" + x + ">15,15,P" + x + "+S" + x + ")";
                 cs[index, CloumnIndex["多元學習表現"]].Formula = formula;
 
                 string[] tag = CheckTagId(obj.TagIds);
@@ -844,7 +849,7 @@ FROM
                 {
                     if (_MappingData[tagName].Contains(sid))
                     {
-                        if (弱勢身分.ContainsKey(tagName) && tagName== "低收入戶")
+                        if (弱勢身分.ContainsKey(tagName) && tagName == "低收入戶")
                         {
                             tag[0] = 弱勢身分[tagName].ToString();
                             //tag[1] = "2";
@@ -852,7 +857,7 @@ FROM
                             return tag;
                         }
 
-                        if (弱勢身分.ContainsKey(tagName)&& tag15pointsList.Contains(tagName))
+                        if (弱勢身分.ContainsKey(tagName) && tag15pointsList.Contains(tagName))
                         {
                             tag[0] = 弱勢身分[tagName].ToString();
                             tag[1] = "1.5";
@@ -993,7 +998,7 @@ FROM
         {
             List<PrioritySetting> UDTlist = _A.Select<PrioritySetting>(); //檢查UDT並回傳資料
 
-            UDTlist.Sort(delegate(PrioritySetting x, PrioritySetting y)
+            UDTlist.Sort(delegate (PrioritySetting x, PrioritySetting y)
             {
                 string xx = x.UID.PadLeft(10, '0');
                 string yy = y.UID.PadLeft(10, '0');

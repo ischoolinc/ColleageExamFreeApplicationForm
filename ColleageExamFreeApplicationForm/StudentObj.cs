@@ -13,7 +13,7 @@ namespace ColleageExamFreeApplicationForm
         public string Id, Name, ClassName, IdNumber, SeatNo, StudentNumber, GradeYear, ZipCode, Address, Contact_Phone, SMS_Phone;
         public int Birth_Year, Birth_Month, Birth_Day;
         public decimal ServiceHours;
-        public int CadreTimes;
+
         //原始獎懲紀錄
         public int MeritA, MeritB, MeritC, DemeritA, DemeritB, DemeritC;
         //功過相抵後獎懲紀錄
@@ -267,10 +267,23 @@ namespace ColleageExamFreeApplicationForm
             get
             {
                 decimal score = (int)(ServiceHours) * 0.5m;
-                score += CadreTimes * 2;
-
                 if (score > 15)
                     score = 15;
+
+                return score;
+            }
+        }
+
+        public int CadreTimes;
+
+        /// <summary>
+        /// 幹部積分
+        /// </summary>
+        public decimal CadreTimes_Completely
+        {
+            get
+            {
+                decimal score = CadreTimes * 2; //幹部紀錄
 
                 return score;
             }

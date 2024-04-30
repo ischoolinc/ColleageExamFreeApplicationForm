@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Template.xls" />
+    <None Include="Resources\Template_Completely.xls" />
     <None Include="Resources\Template_Priority.xls" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

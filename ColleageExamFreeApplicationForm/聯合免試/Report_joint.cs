@@ -137,7 +137,7 @@ namespace ColleageExamFreeApplicationForm
             Workbook wb = (Workbook)e.Result;
             SaveFileDialog sd = new SaveFileDialog();
             sd.Title = "另存新檔";
-            sd.FileName = Global.ReportName + ".xls";
+            sd.FileName = Global.ReportName + "(聯合免試)" + ".xls";
             sd.Filter = "Excel檔案 (*.xls)|*.xls|所有檔案 (*.*)|*.*";
             if (sd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -681,6 +681,12 @@ FROM
 
             int index = 1;
             Workbook wb = new Workbook(new MemoryStream(Properties.Resources.Template));
+
+            int defSchoolyear = 0;
+            int.TryParse(K12.Data.School.DefaultSchoolYear, out defSchoolyear);
+            wb.Worksheets[0].Cells[52].Value = string.Format("是否報考{0}年國中教育會考", defSchoolyear + 1);
+            wb.Worksheets[0].Cells[53].Value = string.Format("{0}年國中教育會考准考證號碼", defSchoolyear + 1);
+
             Cells cs = wb.Worksheets[0].Cells;
             foreach (StudentObj obj in list)
             {
