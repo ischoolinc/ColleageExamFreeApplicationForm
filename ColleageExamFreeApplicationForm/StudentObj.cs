@@ -236,7 +236,7 @@ namespace ColleageExamFreeApplicationForm
         /// </summary>
         /// https://3.basecamp.com/4399967/buckets/15852426/todos/4417454620
         /// https://3.basecamp.com/4399967/buckets/15852426/todos/6692639656   2023/10/26
-        public decimal ServiceHoursScore_Priority
+        public int ServiceHoursScore_Priority
         {
             get
             {
@@ -254,7 +254,7 @@ namespace ColleageExamFreeApplicationForm
                 if (score > 15)
                     score = 15;
 
-                return score;
+                return (int)Math.Floor(score);
             }
         }
 
@@ -262,7 +262,7 @@ namespace ColleageExamFreeApplicationForm
         /// 完全免試
         /// </summary>
         ///https://3.basecamp.com/4399967/buckets/15852426/todos/7221323792
-        public decimal ServiceHoursScore_Completely
+        public int ServiceHoursScore_Completely
         {
             get
             {
@@ -270,7 +270,7 @@ namespace ColleageExamFreeApplicationForm
                 if (score > 15)
                     score = 15;
 
-                return score;
+                return (int)Math.Floor(score);
             }
         }
 
